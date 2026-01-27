@@ -61,7 +61,6 @@ export class ProductService {
       console.log(error);
       throw new InternalServerErrorException();
     }
-    return `This action returns a #${id} product`;
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
@@ -81,7 +80,15 @@ export class ProductService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const deletedProdct = await this.prisma.product.delete({ where: { id } });
+      console.log('delete: ', deletedProdct);
+      return { message: 'Successfully Deleted Product' };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 }
