@@ -16,10 +16,48 @@ datasource db {
 
 // user schema
 model User {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String    @unique
   password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+  sales     Sale[]
+}
+
+// product schema
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  sku       String   @unique
+  price     Decimal  @db.Decimal(10, 2)
+  stockQty  Int      @default(0)
+  authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  saleItems SaleItem[]
+  user      User       @relation(fields: [authorId], references: [id])
+}
+
+model Sale {
+  id          Int        @id @default(autoincrement())
+  totalAmount Decimal    @db.Decimal(10, 2)
+  customerId  String
+  productId   Int
+  createdAt   DateTime   @default(now())
+  items       SaleItem[]
+  user        User       @relation(fields: [customerId], references: [id])
+}
+
+model SaleItem {
+  id        Int     @id @default(autoincrement())
+  saleId    Int
+  productId Int
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
