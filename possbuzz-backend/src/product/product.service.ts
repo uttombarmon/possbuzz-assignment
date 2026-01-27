@@ -2,6 +2,16 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma.service';
+// export interface Product {
+//   id?: number;
+//   name: string;
+//   sku: string;
+//   price: number;
+//   stockQty: number;
+//   authorId: string;
+//   createdAt?: Date;
+//   updatedAt?: Date;
+// }
 
 @Injectable()
 export class ProductService {
@@ -29,8 +39,16 @@ export class ProductService {
     }
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll() {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const products = await this.prisma.product.findMany();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return products;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   findOne(id: number) {
