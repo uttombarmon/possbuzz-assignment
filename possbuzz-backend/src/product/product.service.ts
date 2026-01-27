@@ -51,7 +51,16 @@ export class ProductService {
     }
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const product = await this.prisma.product.findFirst({ where: { id } });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return product;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
     return `This action returns a #${id} product`;
   }
 
