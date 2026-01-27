@@ -54,7 +54,7 @@ export class AuthService {
       throw new InternalServerErrorException();
     }
   }
-  async getUser(loginDto: LoginDto) {
+  async loginUser(loginDto: LoginDto) {
     /*
     1. check isExit user
     2. then compare password

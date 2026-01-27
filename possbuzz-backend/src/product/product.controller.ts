@@ -7,20 +7,23 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-@Controller('product')
+@Controller('api/v1/product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  create(@Request() req, @Body() createProductDto: CreateProductDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    const userId: string = req.user.id || req.user.sub;
+    return this.productService.create(userId, createProductDto);
   }
 
   @Get()
