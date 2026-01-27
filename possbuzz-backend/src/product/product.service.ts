@@ -55,8 +55,21 @@ export class ProductService {
     return `This action returns a #${id} product`;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      const updatedProduct = await this.prisma.product.update({
+        where: { id },
+        data: updateProductDto,
+      });
+      return {
+        data: updateProductDto,
+        message: 'Successfully Product Updated!',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   remove(id: number) {
