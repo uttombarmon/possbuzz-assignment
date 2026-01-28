@@ -11,7 +11,7 @@ import {
 import type { Route } from "./+types/login";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { apiClient } from "lib/api/apiIntercepters";
 
 export function meta({}: Route.MetaArgs) {
@@ -26,7 +26,7 @@ export default function Login() {
   const [loading, setLoading] = React.useState(false);
 
   const onFinish = async (values: any) => {
-    console.log(values);
+    // console.log(values);
     setLoading(true);
     try {
       const response = await apiClient.post("/auth/login", values);
@@ -91,6 +91,9 @@ export default function Login() {
               Log in
             </Button>
           </Form.Item>
+          <div style={{ textAlign: "center" }}>
+            Already have an account? <Link to="/register">Log in</Link>
+          </div>
         </Form>
       </Card>
     </div>

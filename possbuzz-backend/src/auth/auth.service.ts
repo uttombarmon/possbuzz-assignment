@@ -62,29 +62,29 @@ export class AuthService {
     4. set cookies
     5 send user and token
     */
-    try {
-      const user = await this.userService.findUser(loginDto.email);
-      if (!user) {
-        throw new NotFoundException();
-      }
-
-      const { password, ...userWithoutPass } = user;
-      const isMatch = await bcrypt.compare(loginDto.password, password);
-      if (!isMatch) {
-        throw new UnauthorizedException();
-      }
-      const accessToken = await this.jwtService.signAsync({
-        sub: user.id,
-        email: user.email,
-      });
-      // console.log('accessToken: ', accessToken);
-      return {
-        data: userWithoutPass,
-        accessToken: accessToken,
-      };
-    } catch (err) {
-      console.log(err);
-      throw new InternalServerErrorException();
+    // try {
+    const user = await this.userService.findUser(loginDto.email);
+    if (!user) {
+      throw new NotFoundException();
     }
+
+    const { password, ...userWithoutPass } = user;
+    const isMatch = await bcrypt.compare(loginDto.password, password);
+    if (!isMatch) {
+      throw new UnauthorizedException();
+    }
+    const accessToken = await this.jwtService.signAsync({
+      sub: user.id,
+      email: user.email,
+    });
+    // console.log('accessToken: ', accessToken);
+    return {
+      data: userWithoutPass,
+      accessToken: accessToken,
+    };
+    // } catch (err) {
+    //   console.log(err);
+    //   throw new InternalServerErrorException(err);
+    // }
   }
 }
