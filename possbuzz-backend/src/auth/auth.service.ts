@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  Request,
   UnauthorizedException,
 } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
@@ -86,5 +87,10 @@ export class AuthService {
     //   console.log(err);
     //   throw new InternalServerErrorException(err);
     // }
+  }
+  async getUser(userId: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    const user = await this.userService.getUserById(userId);
+    return user;
   }
 }

@@ -19,7 +19,7 @@ const Register: React.FC = () => {
       localStorage.setItem("token", response.data.accessToken);
 
       message.success("Account created successfully!");
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error: any) {
       console.log(error);
       message.error("Registration failed.");

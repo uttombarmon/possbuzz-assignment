@@ -35,7 +35,7 @@ export default function Login() {
       localStorage.setItem("token", response.data.accessToken);
 
       message.success("Login successful!");
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error: any) {
       message.error(
         error.response?.data?.message ||

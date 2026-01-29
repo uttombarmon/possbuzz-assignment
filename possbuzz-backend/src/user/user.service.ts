@@ -41,4 +41,8 @@ export class UserService {
     });
     return user;
   }
+  async getUserById(id: string) {
+    const user = await this.prisma.user.findFirst({ where: { id } });
+    return user;
+  }
 }

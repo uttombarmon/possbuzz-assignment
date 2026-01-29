@@ -23,7 +23,7 @@ export const useAuth = () => {
     localStorage.removeItem("token");
     queryClient.setQueryData(["authUser"], null);
     queryClient.invalidateQueries();
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   return { user, isLoading, isAuthenticated: !!user, logout };
