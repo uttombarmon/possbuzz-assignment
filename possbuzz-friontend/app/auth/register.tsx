@@ -14,7 +14,6 @@ const Register: React.FC = () => {
     setLoading(true);
     try {
       const response = await apiClient.post("/auth/register", values);
-      console.log(response);
 
       localStorage.setItem("token", response.data.accessToken);
 
